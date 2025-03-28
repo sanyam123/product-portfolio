@@ -165,7 +165,7 @@ const About = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     className="mb-12 relative"
                   >
-                    {/* Timeline connector */}
+                    {/* Timeline connector - removed the dots */}
                     {index < workExperience.length - 1 && (
                       <div className="absolute left-10 top-20 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-400 rounded-full z-0"></div>
                     )}
@@ -184,15 +184,16 @@ const About = () => {
                             }}
                           />
                         </div>
-                        
-                        {/* Creative timeline elements */}
-                        {index < workExperience.length - 1 && (
-                          <div className="mt-4 ml-9 h-8 w-8 rounded-full bg-blue-500 border-4 border-white shadow-md"></div>
-                        )}
                       </div>
                       
                       {/* Job Details */}
-                      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex-1 hover:shadow-md transition-shadow duration-300">
+                      <motion.div 
+                        className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex-1 transition-shadow duration-300"
+                        whileHover={{ 
+                          y: -5,
+                          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        }}
+                      >
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                           <div>
                             <h3 className="text-xl font-bold text-gray-900">{job.company}</h3>
@@ -225,17 +226,6 @@ const About = () => {
                                   </div>
                                 </div>
                                 <p className="text-gray-700 mt-1">{position.details}</p>
-                                
-                                {/* Career progression indicator between positions */}
-                                {posIndex < job.positions.length - 1 && (
-                                  <div className="flex justify-center my-2">
-                                    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
-                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                      </svg>
-                                    </div>
-                                  </div>
-                                )}
                               </div>
                             ))}
                           </div>
@@ -246,14 +236,14 @@ const About = () => {
                             <p className="text-gray-700">{job.details}</p>
                           </div>
                         )}
-                      </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
           ) : (
-            // Education and Certificates Content - keeping this part unchanged
+            // Education and Certificates Content
             <div>
               {/* Education Section */}
               <div className="mb-16">
@@ -261,8 +251,8 @@ const About = () => {
                   <span className="bg-blue-100 text-blue-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
                     </svg>
                   </span>
                   Education
@@ -276,7 +266,13 @@ const About = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     className="mb-8"
                   >
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300">
+                    <motion.div 
+                      className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-shadow duration-300"
+                      whileHover={{ 
+                        y: -5,
+                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                      }}
+                    >
                       <div className="flex">
                         {/* Institution Logo */}
                         <div className="shrink-0 mr-6">
@@ -317,7 +313,7 @@ const About = () => {
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </motion.div>
                 ))}
                 </div>
@@ -341,7 +337,13 @@ const About = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: index * 0.1 }}
                     >
-                      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+                      <motion.div 
+                        className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 transition-shadow duration-300 h-full flex flex-col"
+                        whileHover={{ 
+                          y: -5,
+                          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+                        }}
+                      >
                         <div className="flex mb-4">
                           {/* Certificate Issuer Logo */}
                           <div className="shrink-0 mr-4">
@@ -379,7 +381,7 @@ const About = () => {
                             View Certificate <FaExternalLinkAlt className="ml-2 text-xs" />
                           </a>
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   ))}
                 </div>
