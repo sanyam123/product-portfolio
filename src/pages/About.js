@@ -61,6 +61,17 @@ const workExperience = [
 const education = [
   {
     id: 1,
+    institution: 'NextLeap',
+    degree: 'Product Management Fellowship',
+    duration: '2016 - 2020',
+    logo: '/assets/logos/nextleap.jpg',
+    details: [
+      'CGPA: 8.5/10',
+      'Relevant coursework: Data Structures, Algorithms, Software Engineering',
+    ],
+  },
+  {
+    id: 2,
     institution: 'Manipal Institute of Technology',
     degree: 'Bachelor of Technology in Computer Science',
     duration: '2016 - 2020',
@@ -76,14 +87,6 @@ const education = [
 const certificates = [
   {
     id: 1,
-    title: 'Product Management Fellowship',
-    issuer: 'NextLeap',
-    logo: '/assets/logos/nextleap.jpg',
-    details: 'Graduated as a top fellow ranking among the top 1% of the batch',
-    url: 'https://example.com/certificate/nextleap'
-  },
-  {
-    id: 2,
     title: 'Product Management Professional',
     issuer: 'Product School',
     logo: '/assets/logos/pmschool.png',
@@ -118,14 +121,14 @@ const About = () => {
       
       <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
         {/* Page Heading */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
         <h1 className="text-4xl font-bold text-gray-900">
             About Me
           </h1>
         </div>
         
         {/* Tabs */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8">
           <div className="inline-flex border border-gray-200 rounded-full p-1 bg-white shadow-sm">
             <button
               onClick={() => setActiveTab('experience')}
@@ -317,75 +320,64 @@ const About = () => {
                   </motion.div>
                 ))}
                 </div>
-              
-              {/* Certificates and Achievements Section */}
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                  <span className="bg-green-100 text-green-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                  </span>
-                  Certificates & Achievements
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {certificates.map((cert, index) => (
-                    <motion.div
-                      key={cert.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                    >
-                      <motion.div 
-                        className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 transition-shadow duration-300 h-full flex flex-col"
-                        whileHover={{ 
-                          y: -5,
-                          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-                        }}
-                      >
-                        <div className="flex mb-4">
-                          {/* Certificate Issuer Logo */}
-                          <div className="shrink-0 mr-4">
-                            <div className="w-14 h-14 rounded-lg bg-white shadow-sm flex items-center justify-center overflow-hidden">
-                              <img 
-                                src={cert.logo} 
-                                alt={`${cert.issuer} logo`} 
-                                className="max-w-full max-h-full object-contain p-1"
-                                onError={(e) => {
-                                  e.target.src = '/assets/logos/placeholder.png';
-                                  e.target.onerror = null;
-                                }}
-                              />
-                            </div>
-                          </div>
-                          
-                          {/* Certificate Title and Issuer */}
-                          <div>
-                            <h3 className="text-lg font-bold text-gray-900 leading-tight">{cert.title}</h3>
-                            <p className="text-sm text-gray-600">{cert.issuer}</p>
-                          </div>
-                        </div>
-                        
-                        {/* Certificate Details */}
-                        <p className="text-gray-700 text-sm mb-4 flex-grow">{cert.details}</p>
-                        
-                        {/* View Certificate Button */}
-                        <div className="mt-auto">
-                          <a 
-                            href={cert.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-sm"
-                          >
-                            View Certificate <FaExternalLinkAlt className="ml-2 text-xs" />
-                          </a>
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+
+{/* Certificates and Achievements Section */}
+<div>
+  <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+    <span className="bg-green-100 text-green-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    </span>
+    Certificates & Achievements
+  </h2>
+  
+  <div className="space-y-3">
+    {certificates.map((cert, index) => (
+      <motion.div
+        key={cert.id}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: index * 0.1 }}
+        whileHover={{ 
+          y: -2,
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+        }}
+      >
+        <div className="bg-white rounded-lg border border-gray-200 p-4 flex justify-between items-center">
+          <div className="flex items-center">
+            <div className="w-12 h-12 shrink-0 rounded flex items-center justify-center overflow-hidden mr-4 bg-white border border-gray-100 shadow-sm">
+              <img 
+                src={cert.logo} 
+                alt={`${cert.issuer} logo`} 
+                className="max-w-full max-h-full object-contain p-1"
+                onError={(e) => {
+                  e.target.src = '/assets/logos/placeholder.png';
+                  e.target.onerror = null;
+                }}
+              />
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900">{cert.title}</h3>
+              <p className="text-sm text-gray-600">{cert.issuer}</p>
+            </div>
+          </div>
+          <a 
+            href={cert.url} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+            aria-label={`View ${cert.title} certificate`}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+</div>
             </div>
           )}
         </div>
