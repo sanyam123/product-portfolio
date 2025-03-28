@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import ContactModal from '../components/layout/ContactModal';
 import Chatbot from '../components/layout/Chatbot';
+import Footer from '../components/layout/Footer';
 import { useModal } from '../context/ModalContext';
 
 // Sample project data - replace with your actual projects
@@ -102,14 +103,13 @@ const Projects = () => {
       <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
         {/* Page Heading */}
         <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Projects
           </h1>
-          {/* <div className="w-16 h-1 bg-blue-600 mx-auto mb-6"></div> */}
         </div>
         
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {categories.map((category) => (
             <motion.button
               key={category}
@@ -127,59 +127,59 @@ const Projects = () => {
           ))}
         </div>
         
-        {/* Projects Grid - Elegant version */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Projects Grid - with smaller tiles */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+              className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
             >
-              {/* Project Image */}
+              {/* Project Image - reduced height */}
               <div className="relative">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-52 object-cover cursor-pointer"
+                  className="w-full h-40 object-cover cursor-pointer"
                   onClick={() => handleCtaClick(project.cta.primary)}
                 />
                 
-                {/* Category Badge */}
-                <div className="absolute top-4 right-4">
-                  <span className="bg-blue-600 bg-opacity-90 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full shadow-sm">
+                {/* Category Badge - smaller size */}
+                <div className="absolute top-3 right-3">
+                  <span className="bg-blue-600 bg-opacity-90 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                     {project.category}
                   </span>
                 </div>
               </div>
               
-              {/* Project Details */}
-              <div className="p-5 bg-gradient-to-b from-gray-50 to-white">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+              {/* Project Details - reduced padding */}
+              <div className="p-4 bg-gradient-to-b from-gray-50 to-white">
+                <h3 className="text-lg font-bold text-gray-900 mb-1.5">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-600 text-xs mb-3 line-clamp-2">
                   {project.description}
                 </p>
                 
-                {/* Impact */}
-                <div className="mb-5 pb-4 border-b border-gray-100">
+                {/* Impact - more compact */}
+                {/* <div className="mb-4 pb-3 border-b border-gray-100">
                   <div className="flex items-start">
-                    <div className="mr-2 text-green-500 font-medium text-sm">Impact:</div>
-                    <div className="text-green-600 text-sm font-medium">{project.impact}</div>
+                    <div className="mr-1.5 text-green-500 font-medium text-xs">Impact:</div>
+                    <div className="text-green-600 text-xs font-medium">{project.impact}</div>
                   </div>
-                </div>
+                </div> */}
                 
-                {/* CTAs Section */}
+                {/* CTAs Section - smaller buttons */}
                 {project.cta.secondary ? (
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
                     {/* Secondary (less prominent) CTA */}
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.secondary)}
-                      className="w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2.5 px-3 rounded-lg transition-colors"
+                      className="w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-2 rounded-md text-sm transition-colors"
                     >
                       {project.cta.secondary.text}
                     </motion.button>
@@ -189,7 +189,7 @@ const Projects = () => {
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.primary)}
-                      className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-3 rounded-lg transition-colors shadow-sm"
+                      className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-2 rounded-md text-sm transition-colors shadow-sm"
                     >
                       {project.cta.primary.text}
                     </motion.button>
@@ -200,7 +200,7 @@ const Projects = () => {
                     whileHover={{ y: -2 }}
                     whileTap={{ y: 0 }}
                     onClick={() => handleCtaClick(project.cta.primary)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors shadow-sm"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-md text-sm transition-colors shadow-sm"
                   >
                     {project.cta.primary.text}
                   </motion.button>
@@ -219,6 +219,9 @@ const Projects = () => {
           </div>
         )}
       </main>
+      
+      {/* Footer */}
+      <Footer />
       
       <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
       <Chatbot openContactModal={openContactModal} />

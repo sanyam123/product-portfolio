@@ -6,6 +6,7 @@ import Navbar from '../components/layout/Navbar';
 import ContactModal from '../components/layout/ContactModal';
 import Chatbot from '../components/layout/Chatbot';
 import { useModal } from '../context/ModalContext';
+import Footer from '../components/layout/Footer';
 
 const Resume = () => {
   const { isContactModalOpen, openContactModal, closeContactModal } = useModal();
@@ -28,7 +29,7 @@ const Resume = () => {
       
       <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
         {/* Heading and button container with relative positioning */}
-        <div className="max-w-5xl mx-auto relative mb-10">
+        <div className="max-w-5xl mx-auto relative mb-6">
           {/* Centered title */}
           <h1 className="text-4xl font-bold text-gray-900 text-center">
             Resume
@@ -58,6 +59,7 @@ const Resume = () => {
         </div>
       </main>
       
+      <Footer/>
       <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
       <Chatbot openContactModal={openContactModal} />
     </>

@@ -5,6 +5,7 @@ import ContactModal from '../components/layout/ContactModal';
 import Chatbot from '../components/layout/Chatbot';
 import { useModal } from '../context/ModalContext';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import Footer from '../components/layout/Footer';
 
 // Work experience data - updated to combine Picarro roles
 const workExperience = [
@@ -88,25 +89,44 @@ const certificates = [
   {
     id: 1,
     title: 'Product Management Professional',
-    issuer: 'Product School',
+    issuer: 'PM School',
     logo: '/assets/logos/pmschool.png',
-    details: 'Completed comprehensive product management curriculum covering strategy, execution, and analytics',
     url: 'https://example.com/certificate/productschool'
   },
   {
+    id: 2,
+    title: 'SQL (Intermediate)',
+    issuer: 'PM School',
+    logo: '/assets/logos/pmschool.png ',
+    url: 'https://example.com/certificate/coursera'
+  },
+  {
     id: 3,
-    title: 'AI Product Development',
-    issuer: 'Coursera',
+    title: 'SQL (Basic)',
+    issuer: 'HackerRank',
     logo: '/assets/logos/hackerrank.jpg ',
-    details: 'Specialized in artificial intelligence product development methodologies and frameworks',
     url: 'https://example.com/certificate/coursera'
   },
   {
     id: 4,
-    title: 'AI Product Development',
-    issuer: 'Coursera',
-    logo: '/assets/logos/udemy.png ',
-    details: 'Specialized in artificial intelligence product development methodologies and frameworks',
+    title: 'SQL (Intermediate)',
+    issuer: 'HackerRank',
+    logo: '/assets/logos/hackerrank.jpg ',
+    url: 'https://example.com/certificate/coursera'
+  },
+  
+  {
+    id: 5,
+    title: 'SQL (Intermediate)',
+    issuer: 'Udemy',
+    logo: '/assets/logos/udemy.png',
+    url: 'https://example.com/certificate/coursera'
+  },
+  {
+    id: 6,
+    title: 'SQL (Intermediate)',
+    issuer: 'Udemy',
+    logo: '/assets/logos/udemy.png',
     url: 'https://example.com/certificate/coursera'
   }
 ];
@@ -121,14 +141,14 @@ const About = () => {
       
       <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
         {/* Page Heading */}
-        <div className="text-center mb-4">
+        <div className="text-center mb-6">
         <h1 className="text-4xl font-bold text-gray-900">
             About Me
           </h1>
         </div>
         
         {/* Tabs */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-10">
           <div className="inline-flex border border-gray-200 rounded-full p-1 bg-white shadow-sm">
             <button
               onClick={() => setActiveTab('experience')}
@@ -382,7 +402,7 @@ const About = () => {
           )}
         </div>
       </main>
-      
+      <Footer/>
       <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
       <Chatbot openContactModal={openContactModal} />
     </>
