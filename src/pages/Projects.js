@@ -13,7 +13,7 @@ const projectsData = [
     title: 'YouTube Smart Insights Web-App',
     description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
     impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
-    image: '/assets/projects/YouTube Smart Insights.png',
+    image: '/assets/logos/m4.png',
     category: 'MVP',
     // Flexible CTA configuration
     cta: {
