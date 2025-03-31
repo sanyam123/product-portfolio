@@ -7,7 +7,22 @@ import { useModal } from '../context/ModalContext';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import Footer from '../components/layout/Footer';
 
-// Work experience data - updated to combine Picarro roles
+// Function to format job details with highlighted parts
+const formatJobDetails = (details, highlights) => {
+  if (!highlights || highlights.length === 0) return details;
+  
+  let formattedText = details;
+  highlights.forEach(term => {
+    formattedText = formattedText.replace(
+      term, 
+      `<span class="font-bold text-blue-600 px-1 bg-blue-50 rounded">${term}</span>`
+    );
+  });
+  
+  return formattedText;
+};
+
+// Work experience data - updated with highlighted terms
 const workExperience = [
   {
     id: 1,
@@ -19,13 +34,15 @@ const workExperience = [
         id: 'p1',
         title: 'Associate Product Manager',
         duration: 'October 2023 - Present',
-        details: 'Led product development for a real-time gas leak detection platform—translating user research into wireframes and PRDs, collaborating cross-functionally to align priorities, and supporting enterprise onboarding for a successful rollout, generating $5M in revenue.'
+        details: 'Led product development for a real-time gas leak detection platform—translating user research into wireframes and PRDs, collaborating cross-functionally to align priorities, and supporting enterprise onboarding for a successful rollout, generating $5M in revenue.',
+        highlights: ['$5M']
       },
       {
         id: 'p2',
         title: 'Software Engineer',
         duration: 'March 2022 - October 2023',
-        details: 'Developed front-end application in React for Picarro\'s fenceline air monitoring platform—driving adoption across 5 enterprise clients, enhancing usability, and contributing to $50M+ in ARR.'
+        details: 'Developed front-end application in React for Picarro\'s fenceline air monitoring platform—driving adoption across 5 enterprise clients, enhancing usability, and contributing to $50M+ in ARR.',
+        highlights: ['$50M+', '5 enterprise clients']
       }
     ]
   },
@@ -36,7 +53,8 @@ const workExperience = [
     position: 'Automation Engineer',
     duration: 'August 2020 - March 2022',
     logo: '/assets/logos/ubs.png',
-    details: 'Led automation of key financial workflows at UBS, saving 400+ man-hours monthly and enabling faster, data-driven decisions across business teams.'
+    details: 'Led automation of key financial workflows at UBS, saving 400+ man-hours monthly and enabling faster, data-driven decisions across business teams.',
+    highlights: ['400+ man-hours']
   },
   {
     id: 4,
@@ -45,7 +63,8 @@ const workExperience = [
     position: 'Product Analytics Intern',
     duration: 'January 2020 - July 2020',
     logo: '/assets/logos/ge.png',
-    details: 'Designed and built Power BI dashboards that improved locomotive performance monitoring and boosted servicing efficiency by 20%.'
+    details: 'Designed and built Power BI dashboards that improved locomotive performance monitoring and boosted servicing efficiency by 20%.',
+    highlights: ['20%']
   },
   {
     id: 5,
@@ -54,7 +73,8 @@ const workExperience = [
     position: 'Augmented Reality Development Intern',
     duration: 'May 2019 - July 2019',
     logo: '/assets/logos/stanley.png',
-    details: 'Developed an AR-based Android app in Unity 3D to assist 10K+ tool users in remote areas — cutting support dependency by ~25% and enabling faster, on-site fixes.'
+    details: 'Developed an AR-based Android app in Unity 3D to assist 10K+ tool users in remote areas — cutting support dependency by ~25% and enabling faster, on-site fixes.',
+    highlights: ['10K+', '~25%']
   },
 ];
 
@@ -217,7 +237,7 @@ const About = () => {
                       >
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                           <div>
-                            <h3 className="text-xl font-bold text-gray-900">{job.company}</h3>
+                            <h3 className="text-xl font-bold text-gray-900 px-2 py-1 bg-gray-50 rounded-md inline-block">{job.company}</h3>
                             <p className="text-sm text-gray-500 italic mb-3">{job.description}</p>
                           </div>
                           {/* Only show duration here if it's not a multi-position job */}
@@ -239,22 +259,32 @@ const About = () => {
                                 className={`${posIndex !== 0 ? 'pt-4 border-t border-gray-100' : ''}`}
                               >
                                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1">
-                                  <h4 className="text-lg font-semibold text-blue-700">{position.title}</h4>
+                                  <h4 className="text-lg font-semibold text-blue-700 mb-3">{position.title}</h4>
                                   <div className="md:text-right mt-1 md:mt-0">
                                     <div className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
                                       {position.duration}
                                     </div>
                                   </div>
                                 </div>
-                                <p className="text-gray-700 mt-1">{position.details}</p>
+                                <p 
+                                  className="text-gray-700 mt-1" 
+                                  dangerouslySetInnerHTML={{
+                                    __html: formatJobDetails(position.details, position.highlights)
+                                  }} 
+                                />
                               </div>
                             ))}
                           </div>
                         ) : (
                           // For single position jobs
                           <div>
-                            <h4 className="text-lg font-semibold text-blue-700 mb-2">{job.position}</h4>
-                            <p className="text-gray-700">{job.details}</p>
+                            <h4 className="text-lg font-semibold text-blue-700 mb-3">{job.position}</h4>
+                            <p 
+                              className="text-gray-700" 
+                              dangerouslySetInnerHTML={{
+                                __html: formatJobDetails(job.details, job.highlights)
+                              }} 
+                            />
                           </div>
                         )}
                       </motion.div>
@@ -267,8 +297,6 @@ const About = () => {
             // Education and Certificates Content
             <div>
               {/* Education Section */}
-{/* Education Section */}
-{/* Education Section */}
 <div className="mb-12">
   <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
     <span className="bg-blue-100 text-blue-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
@@ -337,7 +365,7 @@ const About = () => {
                     <span className="text-sm">Recognised as a <span className="font-bold text-blue-700">Top Fellow</span> (Top 1% of the Graduating Cohort)</span>
                   </div>
                   <a 
-                    href="https://drive.google.com/file/d/1bxy8lFf3deVLgQM20yXknceIWFbkAULr/view" 
+                    href="https://drive.google.com/file/d/1o9nNBLCE4M_UONa8OaiMujrkwcfgblY4/view" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="flex-shrink-0 p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
@@ -424,7 +452,7 @@ const About = () => {
           aria-label={`View ${cert.title} certificate`}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
       </div>
