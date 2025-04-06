@@ -13,7 +13,7 @@ const projectsData = [
     title: 'YouTube Smart Insights Web-App',
     description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
     impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
-    image: '/assets/logos/m4.png',
+    image: '/assets/projects/youtube.png',
     category: 'MVP',
     // Flexible CTA configuration
     cta: {
@@ -31,10 +31,10 @@ const projectsData = [
   },
   {
     id: 2,
-    title: 'Myntra Rentals - Fashion, Minus Waste!',
+    title: 'District by Zomato',
     description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
     impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
-    image: '/assets/projects/Myntra.webp',
+    image: '/assets/projects/d1.avif',
     category: 'Case Study',
     // Single CTA configuration
     cta: {
@@ -51,11 +51,11 @@ const projectsData = [
     }
   },
   {
-    id: 4,
-    title: 'UNO - AI Personal Assistant',
+    id: 3,
+    title: 'Myntra Rentals - Case Study',
     description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
     impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
-    image: '/assets/projects/UNO-AI Personal Assistant.avif',
+    image: '/assets/projects/myntra-1.avif',
     category: 'AI Agent',
     // Flexible CTA configuration
     cta: {
@@ -71,10 +71,52 @@ const projectsData = [
       }
     }
   },
+  {
+    id: 4,
+    title: 'Myntra Rentals - PRD',
+    description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
+    impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
+    image: '/assets/projects/myntra-1.avif',
+    category: 'AI Agent',
+    // Flexible CTA configuration
+    cta: {
+      primary: {
+        text: 'View Demo',
+        url: 'https://yourwebsite.com/uno-ai-demo', // External website link
+        isPdf: false
+      },
+      secondary: {
+        text: 'View Slides',
+        url: '/assets/projects/UNO-Slides.pdf',
+        isPdf: true
+      }
+    }
+  },
+  // {
+  //   id: 5,
+  //   title: 'UNO - AI Personal Assistant',
+  //   description: 'Dating Made Effortless: How My Solution Transforms Your Date Planning Experience',
+  //   impact: 'Unlocking $10M in potential annual revenue while boosting user retention by 5%',
+  //   image: '/assets/projects/myntra-3.png',
+  //   category: 'AI Agent',
+  //   // Flexible CTA configuration
+  //   cta: {
+  //     primary: {
+  //       text: 'View Demo',
+  //       url: 'https://yourwebsite.com/uno-ai-demo', // External website link
+  //       isPdf: false
+  //     },
+  //     secondary: {
+  //       text: 'View Slides',
+  //       url: '/assets/projects/UNO-Slides.pdf',
+  //       isPdf: true
+  //     }
+  //   }
+  // },
 ];
 
 // Filter categories
-const categories = ['All', 'Case Study', 'Product Teardown', 'AI Agent', "MVP"];
+const categories = ['All', 'Case Study', 'Product Teardown', 'PRD', "MVP"];
 
 const Projects = () => {
   const { isContactModalOpen, openContactModal, closeContactModal } = useModal();

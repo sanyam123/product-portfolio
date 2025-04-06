@@ -29,7 +29,7 @@ const Navbar = ({ openContactModal }) => {
   const handleResumeClick = (e) => {
     e.preventDefault();
     // Open resume PDF in a new tab
-    window.open('/assets/resume.pdf', '_blank');
+    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
   };
 
   const navLinks = [

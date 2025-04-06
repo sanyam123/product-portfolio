@@ -7,7 +7,7 @@ const MobileBottomNav = () => {
   
   // Handler for opening resume in new tab
   const openResume = () => {
-    window.open('/assets/resume.pdf', '_blank');
+    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
   };
 
   // Navigation items
