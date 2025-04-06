@@ -113,7 +113,7 @@ const Projects = () => {
     <>
       <Navbar openContactModal={openContactModal} />
       
-      <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
+      <main className={`container mx-auto px-4 pt-20 md:pt-24 ${isMobile ? 'pb-24' : 'pb-16'}`}>
         {/* Page Heading */}
         <div className="text-center mb-6">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
@@ -121,30 +121,26 @@ const Projects = () => {
           </h1>
         </div>
         
-        {/* Filter Buttons - Mobile-specific improvements */}
-        <div className="flex justify-center mb-10">
-          <div className={`flex ${isMobile ? 'flex-wrap justify-center gap-2 w-full px-2 py-1' : ''}`}>
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveFilter(category)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  isMobile ? 'my-1 mx-1' : 'mx-2'
-                } ${
-                  activeFilter === category
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {category}
-              </motion.button>
-            ))}
-          </div>
+        {/* Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {categories.map((category) => (
+            <motion.button
+              key={category}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveFilter(category)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                activeFilter === category
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {category}
+            </motion.button>
+          ))}
         </div>
         
-        {/* Projects Grid - with better spacing for mobile */}
+        {/* Projects Grid - with smaller tiles */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
             <motion.div
@@ -154,7 +150,7 @@ const Projects = () => {
               transition={{ duration: 0.4 }}
               className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
             >
-              {/* Project Image */}
+              {/* Project Image - reduced height */}
               <div className="relative">
                 <img
                   src={project.image}
@@ -163,7 +159,7 @@ const Projects = () => {
                   onClick={() => handleCtaClick(project.cta.primary)}
                 />
                 
-                {/* Category Badge */}
+                {/* Category Badge - smaller size */}
                 <div className="absolute top-3 right-3">
                   <span className="bg-blue-600 bg-opacity-90 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                     {project.category}
@@ -171,7 +167,7 @@ const Projects = () => {
                 </div>
               </div>
               
-              {/* Project Details */}
+              {/* Project Details - reduced padding */}
               <div className="p-4 bg-gradient-to-b from-gray-50 to-white">
                 <h3 className="text-lg font-bold text-gray-900 mb-1.5">
                   {project.title}
@@ -180,29 +176,25 @@ const Projects = () => {
                   {project.description}
                 </p>
                 
-                {/* CTAs Section - improved touch targets for mobile */}
+                {/* CTAs Section - smaller buttons */}
                 {project.cta.secondary ? (
                   <div className="flex gap-2">
-                    {/* Secondary CTA */}
+                    {/* Secondary (less prominent) CTA */}
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.secondary)}
-                      className={`w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-md text-sm transition-colors ${
-                        isMobile ? 'py-2.5 px-2' : 'py-2 px-2'
-                      }`}
+                      className="w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-2 rounded-md text-sm transition-colors"
                     >
                       {project.cta.secondary.text}
                     </motion.button>
                     
-                    {/* Primary CTA */}
+                    {/* Primary (prominent) CTA */}
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.primary)}
-                      className={`w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors shadow-sm ${
-                        isMobile ? 'py-2.5 px-2' : 'py-2 px-2'
-                      }`}
+                      className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-2 rounded-md text-sm transition-colors shadow-sm"
                     >
                       {project.cta.primary.text}
                     </motion.button>
@@ -213,9 +205,7 @@ const Projects = () => {
                     whileHover={{ y: -2 }}
                     whileTap={{ y: 0 }}
                     onClick={() => handleCtaClick(project.cta.primary)}
-                    className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors shadow-sm ${
-                      isMobile ? 'py-2.5 px-3' : 'py-2 px-3'
-                    }`}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-md text-sm transition-colors shadow-sm"
                   >
                     {project.cta.primary.text}
                   </motion.button>
@@ -235,8 +225,8 @@ const Projects = () => {
         )}
       </main>
       
-      {/* Footer */}
-      <Footer />
+      {/* Footer - only show on desktop */}
+      {!isMobile && <Footer />}
       
       <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
       <Chatbot openContactModal={openContactModal} />

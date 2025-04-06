@@ -29,7 +29,7 @@ const Navbar = ({ openContactModal }) => {
   const handleResumeClick = (e) => {
     e.preventDefault();
     // Open resume PDF in a new tab
-    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
+    window.open('/assets/resume.pdf', '_blank');
   };
 
   const navLinks = [
@@ -51,34 +51,13 @@ const Navbar = ({ openContactModal }) => {
           Sanyam Singhal
         </Link>
         
-        {/* Mobile menu button */}
+        {/* Contact button for mobile - only show contact in top bar */}
         <div className="md:hidden">
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-700 focus:outline-none"
+            onClick={handleContactClick}
+            className="p-2 text-blue-600 hover:text-blue-800 focus:outline-none"
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            Contact
           </button>
         </div>
         
@@ -115,45 +94,6 @@ const Navbar = ({ openContactModal }) => {
           ))}
         </nav>
       </div>
-      
-      {/* Mobile menu */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-4 z-50"
-        >
-          <div className="container mx-auto px-4 flex flex-col space-y-4">
-            {navLinks.map((link) => (
-              <React.Fragment key={link.name}>
-                {link.onClick ? (
-                  <button
-                    className="font-medium py-2 block text-gray-700 hover:bg-gray-50 rounded-md transition-colors active:bg-gray-100"
-                    onClick={(e) => {
-                      link.onClick(e);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {link.name}
-                  </button>
-                ) : (
-                  <Link
-                    to={link.path}
-                    className={`font-medium py-2 block ${
-                      location.pathname === link.path ? 'text-blue-600' : 'text-gray-700'
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </motion.div>
-      )}
     </header>
   );
 };

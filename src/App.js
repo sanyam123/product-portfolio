@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ModalProvider } from './context/ModalContext';
+import MobileBottomNav from './components/layout/MobileBottomNav';
 
 // Pages
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/about" element={<About />} />
         </Routes>
+        <MobileBottomNav />
       </Router>
     </ModalProvider>
   );

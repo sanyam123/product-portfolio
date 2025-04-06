@@ -15,6 +15,19 @@ const Home = () => {
   const [showTitle, setShowTitle] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showWordSwap, setShowWordSwap] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Start photo animation immediately, trigger title animation after delay
   useEffect(() => {
@@ -27,14 +40,14 @@ const Home = () => {
 
   // Handler for opening resume in new tab
   const openResume = () => {
-    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
+    window.open('/assets/resume.pdf', '_blank');
   };
 
   return (
     <>
       <Navbar openContactModal={openContactModal} />
       
-      <main className="container mx-auto px-4 pt-24 md:pt-32 lg:pt-36 pb-16">
+      <main className={`container mx-auto px-4 pt-24 md:pt-32 lg:pt-36 ${isMobile ? 'pb-24' : 'pb-16'}`}>
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-12">
             {/* Photo fades in from left - moved more to the right with increased gap */}
