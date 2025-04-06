@@ -13,6 +13,20 @@ const Chatbot = ({ openContactModal }) => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Auto-scroll to the bottom of the chat
   const scrollToBottom = () => {
@@ -24,6 +38,36 @@ const Chatbot = ({ openContactModal }) => {
       scrollToBottom();
     }
   }, [messages, isOpen]);
+
+  // Handle clicking outside - mobile only
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobile && isOpen && chatContainerRef.current && !chatContainerRef.current.contains(event.target)) {
+        const chatbotButton = document.getElementById('chatbot-toggle-button');
+        if (chatbotButton && !chatbotButton.contains(event.target)) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, isMobile]);
+
+  // Prevent body scrolling when chatbot is open on mobile only
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen, isMobile]);
 
   // Sample responses
   const sampleResponses = {
@@ -74,7 +118,10 @@ const Chatbot = ({ openContactModal }) => {
               actions: [
                 {
                   label: "Yes, show contact info",
-                  action: openContactModal
+                  action: () => {
+                    openContactModal();
+                    setIsOpen(false); // Close chatbot when opening contact modal
+                  }
                 },
                 {
                   label: "No thanks",
@@ -121,13 +168,16 @@ const Chatbot = ({ openContactModal }) => {
 
   return (
     <>
-      {/* Chatbot toggle button */}
+      {/* Chatbot toggle button - improved only for mobile */}
       <motion.button
+        id="chatbot-toggle-button"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 bg-blue-800 w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors z-40"
+        className={`fixed bottom-6 right-6 bg-blue-800 hover:bg-blue-700 transition-colors z-40 ${
+          isMobile ? "w-12 h-12" : "w-14 h-14"
+        } rounded-full flex items-center justify-center shadow-lg`}
       >
         {isOpen ? (
           <FaTimes className="text-white text-xl" />
@@ -136,7 +186,7 @@ const Chatbot = ({ openContactModal }) => {
         )}
       </motion.button>
 
-      {/* Chatbot window */}
+      {/* Chatbot window - mobile specific styles applied conditionally */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -144,14 +194,30 @@ const Chatbot = ({ openContactModal }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 w-full max-w-sm h-96 bg-white rounded-lg shadow-xl overflow-hidden flex flex-col z-40"
+            ref={chatContainerRef}
+            className={`fixed ${
+              isMobile 
+                ? "inset-0 rounded-none" 
+                : "bottom-24 right-6 w-full max-w-sm h-96 rounded-lg"
+            } bg-white shadow-xl overflow-hidden flex flex-col z-40`}
           >
-            {/* Chat header */}
-            <div className="bg-blue-800 p-4 text-white">
-              <h3 className="font-medium">Chat with Sanyam's Assistant</h3>
-              <p className="text-xs text-blue-100">
-                Ask me anything about Sanyam's experience and projects
-              </p>
+            {/* Chat header - close button only on mobile */}
+            <div className="bg-blue-800 p-4 text-white flex items-center justify-between">
+              <div>
+                <h3 className="font-medium">Chat with Sanyam's Assistant</h3>
+                <p className="text-xs text-blue-100">
+                  Ask me anything about Sanyam's experience and projects
+                </p>
+              </div>
+              {isMobile && (
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 rounded-full hover:bg-blue-700 transition-colors"
+                  aria-label="Close chat"
+                >
+                  <FaTimes className="text-white" />
+                </button>
+              )}
             </div>
 
             {/* Messages area */}
@@ -190,7 +256,7 @@ const Chatbot = ({ openContactModal }) => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input area */}
+            {/* Input area - improved touch targets only on mobile */}
             <div className="border-t p-2 flex">
               <input
                 type="text"

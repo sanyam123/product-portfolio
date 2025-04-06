@@ -20,6 +20,11 @@ const Navbar = ({ openContactModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Close mobile menu when route changes - mobile only logic
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
   const handleContactClick = (e) => {
     e.preventDefault();
     openContactModal();
@@ -44,11 +49,12 @@ const Navbar = ({ openContactModal }) => {
           Sanyam Singhal
         </Link>
         
-        {/* Mobile menu button */}
+        {/* Mobile menu button - only shown on mobile */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-700 focus:outline-none"
+            className="p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+            aria-label="Toggle menu"
           >
             <svg
               className="h-6 w-6"
@@ -75,7 +81,7 @@ const Navbar = ({ openContactModal }) => {
           </button>
         </div>
         
-        {/* Desktop navigation */}
+        {/* Desktop navigation - UNCHANGED */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <div key={link.name} className="relative">
@@ -109,24 +115,24 @@ const Navbar = ({ openContactModal }) => {
         </nav>
       </div>
       
-      {/* Mobile menu */}
+      {/* Mobile menu - ONLY SHOWN ON MOBILE */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-4"
+          className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-4 z-50"
         >
-          <div className="container mx-auto px-4 flex flex-col space-y-4">
+          <div className="container mx-auto px-4 flex flex-col space-y-2">
             {navLinks.map((link) => (
               <React.Fragment key={link.name}>
                 {link.path === '#' ? (
                   <button
-                    className="font-medium py-2 block text-gray-700"
+                    className="font-medium py-3 px-3 block text-gray-700 hover:bg-gray-50 rounded-md transition-colors active:bg-gray-100"
                     onClick={(e) => {
-                      setIsMobileMenuOpen(false);
                       if (link.onClick) link.onClick(e);
+                      setIsMobileMenuOpen(false);
                     }}
                   >
                     {link.name}
@@ -134,8 +140,8 @@ const Navbar = ({ openContactModal }) => {
                 ) : (
                   <Link
                     to={link.path}
-                    className={`font-medium py-2 block ${
-                      location.pathname === link.path ? 'text-blue-600' : 'text-gray-700'
+                    className={`font-medium py-3 px-3 block rounded-md hover:bg-gray-50 transition-colors active:bg-gray-100 ${
+                      location.pathname === link.path ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

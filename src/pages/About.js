@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import ContactModal from '../components/layout/ContactModal';
@@ -84,8 +84,11 @@ const education = [
     id: 1,
     institution: 'NextLeap',
     degree: 'Product Management Fellowship',
-    duration: 'October 2024 - December 2024',
+    duration: 'October 2024 - January 2025',
     logo: '/assets/logos/nextleap.jpg',
+    details: [
+      "Recognised as a Top Fellow (Top 1% of the Graduating Cohort) "
+    ],
   },
   {
     id: 2,
@@ -93,6 +96,9 @@ const education = [
     degree: 'Bachelor of Technology in Computer Science',
     duration: 'August 2016 - August 2020',
     logo: '/assets/logos/university.png',
+    details: [
+      'CGPA: 8.5/10, Scored a perfect 10 GPA in the final semester',
+    ],
   },
 ];
 
@@ -146,6 +152,19 @@ const certificates = [
 const About = () => {
   const { isContactModalOpen, openContactModal, closeContactModal } = useModal();
   const [activeTab, setActiveTab] = useState('experience');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <>
@@ -154,21 +173,23 @@ const About = () => {
       <main className="container mx-auto px-4 pt-20 md:pt-24 pb-16">
         {/* Page Heading */}
         <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-gray-900">
             About Me
           </h1>
         </div>
         
-        {/* Tabs */}
+        {/* Tabs - mobile improvements */}
         <div className="flex justify-center mb-10">
-          <div className="inline-flex border border-gray-200 rounded-full p-1 bg-white shadow-sm">
+          <div className={`inline-flex border border-gray-200 rounded-full p-1 bg-white shadow-sm ${
+            isMobile ? 'w-full justify-center' : ''
+          }`}>
             <button
               onClick={() => setActiveTab('experience')}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeTab === 'experience'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              } ${isMobile ? 'flex-1' : ''}`}
             >
               Work Experience
             </button>
@@ -178,7 +199,7 @@ const About = () => {
                 activeTab === 'education'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              } ${isMobile ? 'flex-1' : ''}`}
             >
               Education
             </button>
@@ -200,14 +221,14 @@ const About = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     className="mb-12 relative"
                   >
-                    {/* Timeline connector - removed the dots */}
-                    {index < workExperience.length - 1 && (
+                    {/* Timeline connector - don't show on mobile */}
+                    {index < workExperience.length - 1 && !isMobile && (
                       <div className="absolute left-10 top-20 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-blue-400 rounded-full z-0"></div>
                     )}
                     
-                    <div className="relative z-10 flex">
+                    <div className={`relative z-10 ${isMobile ? 'flex flex-col items-center' : 'flex'}`}>
                       {/* Company Logo */}
-                      <div className="shrink-0 mr-6">
+                      <div className={`shrink-0 ${isMobile ? 'mb-4' : 'mr-6'}`}>
                         <div className="w-20 h-20 rounded-lg bg-white shadow-md border border-gray-100 flex items-center justify-center overflow-hidden">
                           <img 
                             src={job.logo} 
@@ -230,8 +251,8 @@ const About = () => {
                         }}
                       >
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900 px-2 py-1 bg-gray-50 rounded-md inline-block">{job.company}</h3>
+                          <div className={`${isMobile ? 'bg-gray-50 rounded-md px-3 py-2 -mx-1 mb-3 w-full' : ''}`}>
+                            <h3 className="text-xl font-bold text-gray-900">{job.company}</h3>
                             <p className="text-sm text-gray-500 italic mb-3">{job.description}</p>
                           </div>
                           {/* Only show duration here if it's not a multi-position job */}
@@ -253,8 +274,8 @@ const About = () => {
                                 className={`${posIndex !== 0 ? 'pt-4 border-t border-gray-100' : ''}`}
                               >
                                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1">
-                                  <h4 className="text-lg font-semibold text-blue-700 mb-3">{position.title}</h4>
-                                  <div className="md:text-right mt-1 md:mt-0">
+                                  <h4 className={`text-lg font-semibold text-blue-700 ${isMobile ? 'mb-2' : ''}`}>{position.title}</h4>
+                                  <div className={`${isMobile ? 'mb-2' : ''} md:text-right mt-1 md:mt-0`}>
                                     <div className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
                                       {position.duration}
                                     </div>
@@ -272,7 +293,7 @@ const About = () => {
                         ) : (
                           // For single position jobs
                           <div>
-                            <h4 className="text-lg font-semibold text-blue-700 mb-3">{job.position}</h4>
+                            <h4 className={`text-lg font-semibold text-blue-700 ${isMobile ? 'mb-2' : ''}`}>{job.position}</h4>
                             <p 
                               className="text-gray-700" 
                               dangerouslySetInnerHTML={{
@@ -293,13 +314,13 @@ const About = () => {
               {/* Education Section */}
 <div className="mb-12">
   <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-    {/* <span className="bg-blue-100 text-blue-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+    <span className="bg-blue-100 text-blue-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path d="M12 14l9-5-9-5-9 5 9 5z" />
         <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14z" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
       </svg>
-    </span> */}
+    </span>
     Education
   </h2>
   
@@ -312,15 +333,15 @@ const About = () => {
       className="mb-5"
     >
       <motion.div 
-        className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-2 transition-shadow duration-300"
+        className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 transition-shadow duration-300"
         whileHover={{ 
           y: -5,
           boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
         }}
       >
-        <div className="flex">
+        <div className={`${isMobile ? 'flex flex-col' : 'flex'}`}>
           {/* Institution Logo */}
-          <div className="shrink-0 mr-5">
+          <div className={`shrink-0 ${isMobile ? 'flex justify-center mb-3' : 'mr-5'}`}>
             <div className="w-16 h-16 rounded-lg bg-white shadow-md flex items-center justify-center overflow-hidden">
               <img 
                 src={edu.logo} 
@@ -336,12 +357,12 @@ const About = () => {
           
           {/* Education Details */}
           <div className="flex-1">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+            <div className={`${isMobile ? 'flex flex-col text-center' : 'flex flex-col md:flex-row md:justify-between md:items-start'} mb-2`}>
               <div>
                 <h3 className="text-lg font-bold text-gray-900">{edu.institution}</h3>
                 <h4 className="text-base font-semibold text-blue-700 mb-2">{edu.degree}</h4>
               </div>
-              <div className="text-right mt-1 md:mt-0">
+              <div className={`${isMobile ? 'mt-1 mb-2' : 'text-right mt-1 md:mt-0'}`}>
                 <div className="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
                   {edu.duration}
                 </div>
@@ -351,13 +372,12 @@ const About = () => {
             {/* Single detail with icon */}
             <div className="text-gray-700">
               {edu.id === 1 ? (
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start">
-                    
-                    <span className="text-sm">Recognised as a <span class="font-bold text-blue-600 px-1 bg-blue-50 rounded">Top Fellow</span> (Top 1% of the Graduating Cohort)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-2 text-amber-600 flex-shrink-0 mt-0.5">
+                <div className={`${isMobile ? 'flex flex-col items-center' : 'flex items-start justify-between'}`}>
+                  <div className={`flex items-start ${isMobile ? 'mb-2 text-center' : ''}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 mr-2 text-amber-600 flex-shrink-0 mt-0.5">
                       <path fillRule="evenodd" d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 00-.584.859 6.753 6.753 0 006.138 5.6 6.73 6.73 0 002.743 1.346A6.707 6.707 0 019.279 15H8.54c-1.036 0-1.875.84-1.875 1.875V19.5h-.75a2.25 2.25 0 00-2.25 2.25c0 .414.336.75.75.75h15a.75.75 0 00.75-.75 2.25 2.25 0 00-2.25-2.25h-.75v-2.625c0-1.036-.84-1.875-1.875-1.875h-.739a6.706 6.706 0 01-1.112-3.173 6.73 6.73 0 002.743-1.347 6.753 6.753 0 006.139-5.6.75.75 0 00-.585-.858 47.077 47.077 0 00-3.07-.543V2.62a.75.75 0 00-.658-.744 49.22 49.22 0 00-6.093-.377c-2.063 0-4.096.128-6.093.377a.75.75 0 00-.657.744zm0 2.629c0 1.196.312 2.32.857 3.294A5.266 5.266 0 013.16 5.337a45.6 45.6 0 012.006-.343v.256zm13.5 0v-.256c.674.1 1.343.214 2.006.343a5.265 5.265 0 01-2.863 3.207 6.72 6.72 0 00.857-3.294z" clipRule="evenodd" />
                     </svg>
+                    <span className="text-sm">Recognised as a <span className="font-bold text-blue-700">Top Fellow</span> (Top 1% of the Graduating Cohort)</span>
                   </div>
                   <a 
                     href="https://drive.google.com/file/d/1o9nNBLCE4M_UONa8OaiMujrkwcfgblY4/view" 
@@ -372,14 +392,13 @@ const About = () => {
                   </a>
                 </div>
               ) : (
-                <div className="flex items-start">
-                  
-                  <span className="text-sm">CGPA: <strong>8.5/10</strong>, Scored a perfect <span class="font-bold text-blue-600 px-1 bg-blue-50 rounded">10 GPA</span> in the final semester</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-2 text-amber-600 flex-shrink-0 mt-0.5">
+                <div className={`flex items-start ${isMobile ? 'justify-center text-center' : ''}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 mr-2 text-amber-600 flex-shrink-0 mt-0.5">
                     <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
                     <path d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
                     <path d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
                   </svg>
+                  <span className="text-sm">CGPA: <strong>8.5/10</strong>, Scored a perfect <strong className="text-blue-700">10 GPA</strong> in the final semester</span>
                 </div>
               )}
             </div>
@@ -393,11 +412,11 @@ const About = () => {
 {/* Certificates and Achievements Section */}
 <div>
   <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-    {/* <span className="bg-green-100 text-green-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+    <span className="bg-green-100 text-green-800 w-10 h-10 rounded-full flex items-center justify-center mr-3">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
-    </span> */}
+    </span>
     Certificates & Achievements
   </h2>
   
@@ -413,9 +432,9 @@ const About = () => {
         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
       }}
     >
-      <div className={`bg-white rounded-lg border ${cert.id === 1 ? 'border-amber-200' : 'border-gray-200'} p-4 flex justify-between items-center`}>
-        <div className="flex items-center">
-          <div className="w-12 h-12 shrink-0 rounded flex items-center justify-center overflow-hidden mr-4 bg-white border border-gray-100 shadow-sm">
+      <div className={`bg-white rounded-lg border ${cert.id === 1 ? 'border-amber-200' : 'border-gray-200'} p-4 flex justify-between items-center ${isMobile ? 'flex-wrap' : ''}`}>
+        <div className={`flex items-center ${isMobile ? 'flex-1 min-w-0 mb-2' : ''}`}>
+          <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} shrink-0 rounded flex items-center justify-center overflow-hidden mr-4 bg-white border border-gray-100 shadow-sm`}>
             <img 
               src={cert.logo} 
               alt={`${cert.issuer} logo`} 
@@ -426,12 +445,12 @@ const About = () => {
               }}
             />
           </div>
-          <div>
-            <div className="flex items-center">
-              <h3 className="font-bold text-gray-900">{cert.title}</h3>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center flex-wrap">
+              <h3 className={`font-bold text-gray-900 ${isMobile ? 'text-sm truncate' : ''}`}>{cert.title}</h3>
               {cert.id === 1 && (
                 <>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-2 text-amber-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 ml-2 text-amber-600">
                     <path fillRule="evenodd" d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 00-.584.859 6.753 6.753 0 006.138 5.6 6.73 6.73 0 002.743 1.346A6.707 6.707 0 019.279 15H8.54c-1.036 0-1.875.84-1.875 1.875V19.5h-.75a2.25 2.25 0 00-2.25 2.25c0 .414.336.75.75.75h15a.75.75 0 00.75-.75 2.25 2.25 0 00-2.25-2.25h-.75v-2.625c0-1.036-.84-1.875-1.875-1.875h-.739a6.706 6.706 0 01-1.112-3.173 6.73 6.73 0 002.743-1.347 6.753 6.753 0 006.139-5.6.75.75 0 00-.585-.858 47.077 47.077 0 00-3.07-.543V2.62a.75.75 0 00-.658-.744 49.22 49.22 0 00-6.093-.377c-2.063 0-4.096.128-6.093.377a.75.75 0 00-.657.744zm0 2.629c0 1.196.312 2.32.857 3.294A5.266 5.266 0 013.16 5.337a45.6 45.6 0 012.006-.343v.256zm13.5 0v-.256c.674.1 1.343.214 2.006.343a5.265 5.265 0 01-2.863 3.207 6.72 6.72 0 00.857-3.294z" clipRule="evenodd" />
                   </svg>
                 </>
@@ -444,11 +463,13 @@ const About = () => {
           href={cert.url} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+          className={`p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors ${
+            isMobile ? 'ml-auto' : ''
+          }`}
           aria-label={`View ${cert.title} certificate`}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
       </div>

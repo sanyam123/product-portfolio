@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import ContactModal from '../components/layout/ContactModal';
@@ -79,6 +79,19 @@ const categories = ['All', 'Case Study', 'Product Teardown', 'AI Agent', "MVP"];
 const Projects = () => {
   const { isContactModalOpen, openContactModal, closeContactModal } = useModal();
   const [activeFilter, setActiveFilter] = useState('All');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filter projects based on selected category
   const filteredProjects = activeFilter === 'All' 
@@ -108,26 +121,30 @@ const Projects = () => {
           </h1>
         </div>
         
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((category) => (
-            <motion.button
-              key={category}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveFilter(category)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                activeFilter === category
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {category}
-            </motion.button>
-          ))}
+        {/* Filter Buttons - Mobile-specific improvements */}
+        <div className="flex justify-center mb-10">
+          <div className={`flex ${isMobile ? 'flex-wrap justify-center gap-2 w-full px-2 py-1' : ''}`}>
+            {categories.map((category) => (
+              <motion.button
+                key={category}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setActiveFilter(category)}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  isMobile ? 'my-1 mx-1' : 'mx-2'
+                } ${
+                  activeFilter === category
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {category}
+              </motion.button>
+            ))}
+          </div>
         </div>
         
-        {/* Projects Grid - with smaller tiles */}
+        {/* Projects Grid - with better spacing for mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
             <motion.div
@@ -137,7 +154,7 @@ const Projects = () => {
               transition={{ duration: 0.4 }}
               className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
             >
-              {/* Project Image - reduced height */}
+              {/* Project Image */}
               <div className="relative">
                 <img
                   src={project.image}
@@ -146,7 +163,7 @@ const Projects = () => {
                   onClick={() => handleCtaClick(project.cta.primary)}
                 />
                 
-                {/* Category Badge - smaller size */}
+                {/* Category Badge */}
                 <div className="absolute top-3 right-3">
                   <span className="bg-blue-600 bg-opacity-90 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                     {project.category}
@@ -154,7 +171,7 @@ const Projects = () => {
                 </div>
               </div>
               
-              {/* Project Details - reduced padding */}
+              {/* Project Details */}
               <div className="p-4 bg-gradient-to-b from-gray-50 to-white">
                 <h3 className="text-lg font-bold text-gray-900 mb-1.5">
                   {project.title}
@@ -163,33 +180,29 @@ const Projects = () => {
                   {project.description}
                 </p>
                 
-                {/* Impact - more compact */}
-                {/* <div className="mb-4 pb-3 border-b border-gray-100">
-                  <div className="flex items-start">
-                    <div className="mr-1.5 text-green-500 font-medium text-xs">Impact:</div>
-                    <div className="text-green-600 text-xs font-medium">{project.impact}</div>
-                  </div>
-                </div> */}
-                
-                {/* CTAs Section - smaller buttons */}
+                {/* CTAs Section - improved touch targets for mobile */}
                 {project.cta.secondary ? (
                   <div className="flex gap-2">
-                    {/* Secondary (less prominent) CTA */}
+                    {/* Secondary CTA */}
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.secondary)}
-                      className="w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-2 rounded-md text-sm transition-colors"
+                      className={`w-1/2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium rounded-md text-sm transition-colors ${
+                        isMobile ? 'py-2.5 px-2' : 'py-2 px-2'
+                      }`}
                     >
                       {project.cta.secondary.text}
                     </motion.button>
                     
-                    {/* Primary (prominent) CTA */}
+                    {/* Primary CTA */}
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
                       onClick={() => handleCtaClick(project.cta.primary)}
-                      className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-2 rounded-md text-sm transition-colors shadow-sm"
+                      className={`w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors shadow-sm ${
+                        isMobile ? 'py-2.5 px-2' : 'py-2 px-2'
+                      }`}
                     >
                       {project.cta.primary.text}
                     </motion.button>
@@ -200,7 +213,9 @@ const Projects = () => {
                     whileHover={{ y: -2 }}
                     whileTap={{ y: 0 }}
                     onClick={() => handleCtaClick(project.cta.primary)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-md text-sm transition-colors shadow-sm"
+                    className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors shadow-sm ${
+                      isMobile ? 'py-2.5 px-3' : 'py-2 px-3'
+                    }`}
                   >
                     {project.cta.primary.text}
                   </motion.button>
