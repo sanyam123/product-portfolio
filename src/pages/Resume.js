@@ -25,12 +25,12 @@ const Resume = () => {
   }, []);
   
   // PDF file URL - update this with your actual resume path
-  const resumeUrl = `${window.location.origin}/assets/resume.pdf`;
+  const resumeUrl = `${window.location.origin}/assets/SanyamSinghal-PM-Resume.pdf`;
 
   const downloadResume = () => {
     const link = document.createElement('a');
     link.href = resumeUrl;
-    link.download = 'Sanyam_Singhal_Resume.pdf';
+    link.download = 'SanyamSinghal-PM-Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

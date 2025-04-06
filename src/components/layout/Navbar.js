@@ -20,21 +20,23 @@ const Navbar = ({ openContactModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Close mobile menu when route changes - mobile only logic
-    setIsMobileMenuOpen(false);
-  }, [location]);
-
   const handleContactClick = (e) => {
     e.preventDefault();
     openContactModal();
+  };
+
+  // Handler for resume link
+  const handleResumeClick = (e) => {
+    e.preventDefault();
+    // Open resume PDF in a new tab
+    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
   };
 
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Projects', path: '/projects' },
     { name: 'About Me', path: '/about' },
-    { name: 'Resume', path: '/resume' },
+    { name: 'Resume', path: '#', onClick: handleResumeClick },
     { name: 'Contact', path: '#', onClick: handleContactClick },
   ];
 
@@ -49,12 +51,11 @@ const Navbar = ({ openContactModal }) => {
           Sanyam Singhal
         </Link>
         
-        {/* Mobile menu button - only shown on mobile */}
+        {/* Mobile menu button */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
-            aria-label="Toggle menu"
+            className="p-2 text-gray-700 focus:outline-none"
           >
             <svg
               className="h-6 w-6"
@@ -81,14 +82,14 @@ const Navbar = ({ openContactModal }) => {
           </button>
         </div>
         
-        {/* Desktop navigation - UNCHANGED */}
+        {/* Desktop navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <div key={link.name} className="relative">
-              {link.path === '#' ? (
+              {link.onClick ? (
                 <button
                   className={`font-medium transition-colors duration-300 hover:text-blue-600 ${
-                    false ? 'text-blue-600' : 'text-gray-700'
+                    link.name === 'Resume' || link.name === 'Contact' ? 'text-gray-700' : ''
                   }`}
                   onClick={link.onClick}
                 >
@@ -115,7 +116,7 @@ const Navbar = ({ openContactModal }) => {
         </nav>
       </div>
       
-      {/* Mobile menu - ONLY SHOWN ON MOBILE */}
+      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -124,14 +125,14 @@ const Navbar = ({ openContactModal }) => {
           transition={{ duration: 0.2 }}
           className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-4 z-50"
         >
-          <div className="container mx-auto px-4 flex flex-col space-y-2">
+          <div className="container mx-auto px-4 flex flex-col space-y-4">
             {navLinks.map((link) => (
               <React.Fragment key={link.name}>
-                {link.path === '#' ? (
+                {link.onClick ? (
                   <button
-                    className="font-medium py-3 px-3 block text-gray-700 hover:bg-gray-50 rounded-md transition-colors active:bg-gray-100"
+                    className="font-medium py-2 block text-gray-700 hover:bg-gray-50 rounded-md transition-colors active:bg-gray-100"
                     onClick={(e) => {
-                      if (link.onClick) link.onClick(e);
+                      link.onClick(e);
                       setIsMobileMenuOpen(false);
                     }}
                   >
@@ -140,8 +141,8 @@ const Navbar = ({ openContactModal }) => {
                 ) : (
                   <Link
                     to={link.path}
-                    className={`font-medium py-3 px-3 block rounded-md hover:bg-gray-50 transition-colors active:bg-gray-100 ${
-                      location.pathname === link.path ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
+                    className={`font-medium py-2 block ${
+                      location.pathname === link.path ? 'text-blue-600' : 'text-gray-700'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

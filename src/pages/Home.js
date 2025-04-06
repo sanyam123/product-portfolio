@@ -25,6 +25,11 @@ const Home = () => {
     return () => clearTimeout(titleTimer);
   }, []);
 
+  // Handler for opening resume in new tab
+  const openResume = () => {
+    window.open('/assets/SanyamSinghal-PM-Resume.pdf', '_blank');
+  };
+
   return (
     <>
       <Navbar openContactModal={openContactModal} />
@@ -116,7 +121,7 @@ const Home = () => {
                       transition={{ duration: 1.2, ease: "easeInOut" }}
                       className="text-lg text-gray-700 mb-8"
                     >
-                      I figure out what’s worth building, bring clarity to chaos, and ship products that actually work—making users quietly think, “this just makes sense.”
+                      I figure out what's worth building, bring clarity to chaos, and ship products that actually work—making users quietly think, "this just makes sense."
                     </motion.p>
                   )}
                   
@@ -128,9 +133,12 @@ const Home = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
                     >
-                      <Link to="/resume" className="bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-6 py-3 rounded-lg font-medium transition-colors shadow-sm">
+                      <button 
+                        onClick={openResume} 
+                        className="bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-6 py-3 rounded-lg font-medium transition-colors shadow-sm"
+                      >
                         Open Resume
-                      </Link>
+                      </button>
                       <Link to="/projects" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow-sm transition-colors">
                         Explore Projects
                       </Link>
